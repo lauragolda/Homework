@@ -1,55 +1,32 @@
 <?php
 
-class SavingsAccount
-{
+class SavingsAccount{
     private float $balance;
-    private float $annualInterest;
+    private float $annualRate;
 
-    public function __construct(float $startingBalance)
-    {
-        $this->balance = $startingBalance;
+    function __construct(float $balance, float $annualRate) {
+        $this->balance= $balance;
+        $this->annualRate = $annualRate;
     }
 
-    public function getBalance(): float
-    {
+    public function getAmount(): float {
         return $this->balance;
     }
 
-    public function withdraw(float $withdrawAmount): void
-    {
-        if ($withdrawAmount > 0) {
-            $this->balance -= $withdrawAmount;
-        }
+    public function withdraw(float $withdrawnAmount): void {
+        if($this->balance - $withdrawnAmount >= 0){
+            $this->balance -= $withdrawnAmount;
+        } else throw new Error('Insufficient funds.');
     }
 
-    public function deposit(float $depositAmount): void
-    {
-        if ($depositAmount > 0) {
-            $this->balance += $depositAmount;
-        }
+    public function deposit(float $depositedAmount): void {
+        $this->balance += $depositedAmount;
     }
 
-    public function setInterest(float $newInterest): void
-    {
-        if ($newInterest > 0) {
-            $this->annualInterest = $newInterest;
-        }
-    }
-
-    public function addInterest(): void
-    {
-        if (isset($this->annualInterest)) {
-            $this->balance += $this->balance * $this->annualInterest / 12;
-        }
-    }
-
-    public function getInterestEarned(): float
-    {
-        if (isset($this->annualInterest)) {
-            return $this->balance - $this->balance / (1 + $this->annualInterest / 12);
-        }
-        return 0;
+    public function addInterest(): void {
+        $this->balance += $this->balance * $this->annualRate / 12;
     }
 }
 
-//Nevarēju tikt galā ar pārejo uzdevuma daļu, izmēģināju dažādus variantus, bet īsti līdz galam nestrādāja.
+
+//Nevarēju tikt galā ar pārejo uzdevuma daļu.
